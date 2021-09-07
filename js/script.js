@@ -66,7 +66,8 @@ const FormStyler = function(options) {
                 let select = this.selectors[selector];
                 for (let li in lists) {
                     if (lists.hasOwnProperty(li)) {
-                        lists[li].addEventListener('click',  function () {
+                        lists[li].addEventListener('click',  function (event) {
+                            event.stopPropagation();
                             let id = lists[li].getAttribute('data-id');
                             title.innerText = lists[li].innerText;
                             select.value = id;
