@@ -8,7 +8,7 @@
 <body>
     <div class="container">
         <h1>JS select</h1>
-        <select>
+        <select class="select-1">
             <option value="0">Select value 1</option>
             <option value="1">Value 1</option>
             <option value="2">Value 2</option>
@@ -16,7 +16,7 @@
             <option value="4">Value 4</option>
             <option value="5">Value 5</option>
         </select>
-        <select>
+        <select class="select-2">
             <option value="0">Select value 2</option>
             <option value="1">Value 1</option>
             <option value="2">Value 2</option>
@@ -27,13 +27,15 @@
     </div>
     <script src="js/script.min.js"></script>
     <script>
-        if (document.querySelector('select')) {
-            let formStyler = new FormStyler({
-                selectors: 'select',
-                countItems: 4
-            });
-            formStyler.init();
-        }
+        let formStyler = new FormStyler({
+            selectors: '.select-1',
+            countItems: 4
+        });
+        formStyler.init();
+        (new FormStyler({
+            selectors: '.select-2',
+            countItems: 3
+        })).init();
     </script>
 </body>
 </html>
