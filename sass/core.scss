@@ -3,10 +3,21 @@
 .container {
   max-width: 1000px;
   margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+
+  h1 {
+    width: 100%;
+  }
+
+  .swf-list {
+    margin-right: 20px;
+  }
 }
 
 .swf-list {
   width: 200px;
+  position: relative;
 
   &.opened {
 
@@ -59,8 +70,13 @@
     border: 1px solid #cccccc;
     border-radius: 5px;
     display: none;
-    transition: all .5s;
     overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    background: #ffffff;
+    width: 100%;
 
     ul {
       margin: 0;
