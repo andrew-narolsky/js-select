@@ -18,5 +18,13 @@
         </select>
     </div>
     <script src="js/script.min.js"></script>
+    <script>
+        if (document.querySelector('select')) {
+            let formStyler = new FormStyler({
+                selector: 'select',
+            });
+            formStyler.init();
+        }
+    </script>
 </body>
 </html>
