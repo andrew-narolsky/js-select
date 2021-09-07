@@ -1,6 +1,7 @@
 const FormStyler = function(options) {
 
     this.selector = document.querySelector(options.selector);
+    this.countItems = options.countItems;
 
     this.init = function () {
         this.selector.style.display = 'none';
@@ -17,13 +18,23 @@ const FormStyler = function(options) {
         }
         this.selector.insertAdjacentHTML('afterend', '<div class="swf-list">' +
             '<div class="title">' + title + '</div>' +
-            '<div class="list-wrapper">' +
-            '<ul>' + lists + '</ul>' +
-            '</div>' +
+                '<div class="list-wrapper">' +
+                    '<ul>' + lists + '</ul>' +
+                '</div>' +
             '</div>');
         this.clickOnTitle();
         this.selectOption();
         this.closeOnBody();
+    }
+
+    this.changeHeight = function (countItems) {
+        let listItem = this.selector.nextSibling.querySelector('.list-wrapper ul li');
+        let listItemsCounts = this.selector.nextSibling.querySelectorAll('.list-wrapper ul li').length;
+        if (listItemsCounts > countItems) {
+            let newSelect = this.selector.nextSibling.querySelector('.list-wrapper ul');
+            newSelect.style.maxHeight = countItems * listItem.offsetHeight + 'px';
+            newSelect.style.overflowY = 'scroll';
+        }
     }
 
     this.clickOnTitle = function () {
@@ -31,6 +42,7 @@ const FormStyler = function(options) {
         title.addEventListener('click',  (event) => {
             event.stopPropagation();
             this.selector.nextSibling.classList.toggle('opened');
+            this.changeHeight(this.countItems);
         });
     }
 
