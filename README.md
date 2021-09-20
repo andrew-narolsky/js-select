@@ -2,9 +2,12 @@
 
 Init select
 ```
-let formStyler = new FormStyler({
-    selector: 'select',
+new FormStyler({
+    selectors: '.select-1',
     countItems: 4
 });
-formStyler.init();
+new FormStyler({
+    selectors: '.select-2',
+    countItems: 3
+});
 ```

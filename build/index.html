@@ -27,15 +27,14 @@
     </div>
     <script src="js/script.min.js"></script>
     <script>
-        let formStyler = new FormStyler({
+        new FormStyler({
             selectors: '.select-1',
             countItems: 4
         });
-        formStyler.init();
-        (new FormStyler({
+        new FormStyler({
             selectors: '.select-2',
             countItems: 3
-        })).init();
+        });
     </script>
 </body>
 </html>
