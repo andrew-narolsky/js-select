@@ -4,13 +4,13 @@ const FormStyler = function(options) {
     this.init(this.selectors);
 }
 
-FormStyler.prototype.init = function(selectors) {
-    for (let $selector in selectors) {
-        if (selectors.hasOwnProperty($selector)) {
-            selectors[$selector].style.display = 'none';
+FormStyler.prototype.init = function($selectors) {
+    for (let $selector in $selectors) {
+        if ($selectors.hasOwnProperty($selector)) {
+            $selectors[$selector].style.display = 'none';
             let $lists = '';
             let $title = '';
-            let $options = selectors[$selector].querySelectorAll('option');
+            let $options = $selectors[$selector].querySelectorAll('option');
             for (let $option in $options) {
                 if ($options.hasOwnProperty($option)) {
                     if ($option === '0') {
@@ -19,7 +19,7 @@ FormStyler.prototype.init = function(selectors) {
                     $lists += '<li data-id="' + $options[$option].value + '">' + $options[$option].innerText + '</li>';
                 }
             }
-            selectors[$selector].insertAdjacentHTML('afterend', '<div class="swf-list">' +
+            $selectors[$selector].insertAdjacentHTML('afterend', '<div class="swf-list">' +
                 '<div class="title">' + $title + '</div>' +
                 '<div class="list-wrapper">' +
                 '<ul>' + $lists + '</ul>' +
