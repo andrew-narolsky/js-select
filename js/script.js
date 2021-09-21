@@ -39,9 +39,8 @@ FormStyler.prototype.changeHeight = function(countItems, $element) {
         let $newSelect = $element.nextSibling.querySelector('.list-wrapper ul');
         $newSelect.style.maxHeight = countItems * $listItem.offsetHeight + 'px';
         $newSelect.style.overflowY = 'scroll';
-    } else {
-        $element.nextSibling.querySelector('.list-wrapper').style.top = $listItem.offsetHeight + 'px';
     }
+    $element.nextSibling.style.top = $listItem.offsetHeight + 'px';
 }
 
 FormStyler.prototype.clickOnTitle = function() {
