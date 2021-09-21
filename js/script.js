@@ -1,16 +1,16 @@
 const FormStyler = function(options) {
     this.selectors = document.querySelectorAll(options.selectors);
     this.countItems = options.countItems;
-    this.init(this.selectors);
+    this.init();
 }
 
-FormStyler.prototype.init = function($selectors) {
-    for (let $selector in $selectors) {
-        if ($selectors.hasOwnProperty($selector)) {
-            $selectors[$selector].style.display = 'none';
+FormStyler.prototype.init = function() {
+    for (let $selector in this.selectors) {
+        if (this.selectors.hasOwnProperty($selector)) {
+            this.selectors[$selector].style.display = 'none';
             let $lists = '';
             let $title = '';
-            let $options = $selectors[$selector].querySelectorAll('option');
+            let $options = this.selectors[$selector].querySelectorAll('option');
             for (let $option in $options) {
                 if ($options.hasOwnProperty($option)) {
                     if ($option === '0') {
@@ -19,7 +19,7 @@ FormStyler.prototype.init = function($selectors) {
                     $lists += '<li data-id="' + $options[$option].value + '">' + $options[$option].innerText + '</li>';
                 }
             }
-            $selectors[$selector].insertAdjacentHTML('afterend', '<div class="swf-list">' +
+            this.selectors[$selector].insertAdjacentHTML('afterend', '<div class="swf-list">' +
                 '<div class="title">' + $title + '</div>' +
                 '<div class="list-wrapper">' +
                 '<ul>' + $lists + '</ul>' +
@@ -32,29 +32,27 @@ FormStyler.prototype.init = function($selectors) {
     this.closeOnBody();
 }
 
-FormStyler.prototype.changeHeight = function(countItems) {
-    for (let $selector in this.selectors) {
-        if (this.selectors.hasOwnProperty($selector)) {
-            let $listItem = this.selectors[$selector].nextSibling.querySelector('.list-wrapper ul li');
-            let listItemsCounts = this.selectors[$selector].nextSibling.querySelectorAll('.list-wrapper ul li').length;
-            if (listItemsCounts > countItems) {
-                let $newSelect = this.selectors[$selector].nextSibling.querySelector('.list-wrapper ul');
-                $newSelect.style.maxHeight = countItems * $listItem.offsetHeight + 'px';
-                $newSelect.style.overflowY = 'scroll';
-            }
-            this.selectors[$selector].nextSibling.querySelector('.list-wrapper').style.top = $listItem.offsetHeight + 'px';
-        }
+FormStyler.prototype.changeHeight = function(countItems, $element) {
+    let $listItem = $element.nextSibling.querySelector('.list-wrapper ul li');
+    let listItemsCounts = $element.nextSibling.querySelectorAll('.list-wrapper ul li').length;
+    if (listItemsCounts > countItems) {
+        let $newSelect = $element.nextSibling.querySelector('.list-wrapper ul');
+        $newSelect.style.maxHeight = countItems * $listItem.offsetHeight + 'px';
+        $newSelect.style.overflowY = 'scroll';
+    } else {
+        $element.nextSibling.querySelector('.list-wrapper').style.top = $listItem.offsetHeight + 'px';
     }
 }
 
 FormStyler.prototype.clickOnTitle = function() {
+    let countItems = this.countItems;
     for (let $selector in this.selectors) {
         if (this.selectors.hasOwnProperty($selector)) {
             let $title = this.selectors[$selector].nextSibling.querySelector('.title');
-            $title.addEventListener('click',  (event) => {
+            $title.addEventListener('click',  function(event) {
                 event.stopPropagation();
-                this.selectors[$selector].nextSibling.classList.toggle('opened');
-                this.changeHeight(this.countItems);
+                event.target.closest('.swf-list').classList.toggle('opened');
+                FormStyler.prototype.changeHeight(countItems, event.target);
             });
         }
     }
@@ -68,7 +66,7 @@ FormStyler.prototype.selectOption = function() {
             let $select = this.selectors[$selector];
             for (let $li in $lists) {
                 if ($lists.hasOwnProperty($li)) {
-                    $lists[$li].addEventListener('click',  function (event) {
+                    $lists[$li].addEventListener('click',  function(event) {
                         event.stopPropagation();
                         let id = $lists[$li].getAttribute('data-id');
                         $title.innerText = $lists[$li].innerText;
@@ -85,8 +83,13 @@ FormStyler.prototype.closeOnBody = function() {
     let $body = document.querySelector('body');
     for (let $selector in this.selectors) {
         if (this.selectors.hasOwnProperty($selector)) {
-            $body.addEventListener('click',  () => {
-                this.selectors[$selector].nextSibling.classList.remove('opened');
+            $body.addEventListener('click',  function(event) {
+                let $selects = event.target.querySelectorAll('.swf-list');
+                for (let i in $selects) {
+                    if ($selects.hasOwnProperty(i)) {
+                        $selects[i].classList.remove('opened');
+                    }
+                }
             });
         }
     }
